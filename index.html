@@ -7,6 +7,12 @@
 </head>
 
 <body>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var socket = io('/remote-controller');
+    socket.on('connect', function(){});
+    socket.on('event', function(data){});
+    socket.on('disconnect', function(){});
+    </script>
 </body>
 </html>
