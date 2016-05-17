@@ -4,15 +4,39 @@
     <meta charset="UTF-8" />
     <title>Streamy-remote-controller</title>
     <!-- External -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+    
+
+
 </head>
 
 <body>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    var socket = io('/remote-controller');
-    socket.on('connect', function(){});
-    socket.on('event', function(data){});
-    socket.on('disconnect', function(){});
+    var client = io.connect('/remote-controller');
+    var room = 'nev';
+    client.on('connect', function(){
+        client.emit('join', room) 
+    });
+
+    client.on('event', function(){});
+    client.on('disconnect', function(){});
+    client.on('message', function (msg) {
+        console.log(msg);
+        $('#debug_text').text(msg);
+    });
+    
+    var myFunction = (client) => {
+        client.emit('send', { room: room, msg: $('#input').val() });
+    }
+    
     </script>
+
+    <div id="debug">
+        <input type="text" id="input" value="boo">
+        <button onclick="myFunction(client)" >Click me</button>
+        <div id="debug_text">bee</div>
+    </div>
+
 </body>
 </html>
